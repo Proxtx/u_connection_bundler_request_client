@@ -1,4 +1,4 @@
-import { clients } from "./bundler.js";
+import { clients } from "./clients.js";
 import config from "@proxtx/config";
 
 export const request = async (id, request) => {
