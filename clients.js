@@ -6,7 +6,6 @@ let router = Router();
 export let clients = {};
 
 router.post("/register", (req, res) => {
-  console.log(req.body);
   if (req.body.id && req.body.key && req.body.services) {
     clients[req.body.id] = new Client(req.body);
     res.status(200).send({ success: true });
