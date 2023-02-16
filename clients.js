@@ -57,3 +57,5 @@ const clearClients = () => {
     clearClients();
   }, 5000);
 };
+
+clearClients();
