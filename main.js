@@ -9,7 +9,7 @@ app.use(express.json());
 
 server.addModule("./../../../bundler.js", "bundler");
 app.use("/api", router);
-app.use("/clients", clientsRouter);
+app.use("/client", clientsRouter);
 
 console.log("Server started. Port:", config.port);
 app.listen(config.port);
