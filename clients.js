@@ -78,6 +78,8 @@ const clearClients = () => {
   }, 5000);
 };
 
+clearClients();
+
 const msToString = (ms) => {
   let hours = Math.floor(ms / 1000 / 60 / 60);
   let minutes = Math.floor((ms % (1000 * 60 * 60)) / 1000 / 60);
