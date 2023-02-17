@@ -24,7 +24,7 @@ router.get("/queue", (req, res) => {
     let info = {
       client,
       estimatedSignal: msToString(
-        clients[client].interval - Date.now() - clients[client].signal
+        clients[client].interval - (Date.now() - clients[client].signal)
       ),
       interval: clients[client].interval,
       request: clients[client].request,
