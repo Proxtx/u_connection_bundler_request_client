@@ -27,7 +27,7 @@ router.get("/queue", (req, res) => {
         clients[client].interval - (Date.now() - clients[client].signal)
       ),
       interval: clients[client].interval,
-      request: clients[client].request,
+      requests: clients[client].requests,
     };
 
     result.push(info);
