@@ -17,11 +17,30 @@ router.post("/pull", (req, res) => {
   else res.status(200).send(clients[req.body.id].getResponses(req.body));
 });
 
+router.get("/queue", (req, res) => {
+  if (req.query.auth != config.auth) return res.status(200).send("Auth Error");
+  let result = [];
+  for (let client in clients) {
+    let info = {
+      client,
+      estimatedSignal: msToString(
+        clients[client].interval - Date.now() - clients[client].signal
+      ),
+      interval: clients[client].interval,
+      request: clients[client].request,
+    };
+
+    result.push(info);
+  }
+  return res.status(200).send(JSON.stringify(result, null, 2));
+});
+
 class Client {
   constructor(register) {
     this.register = register;
     this.signal = Date.now();
     this.requests = [];
+    this.interval = 0;
   }
 
   isDead() {
@@ -41,6 +60,7 @@ class Client {
 
   getResponses(request) {
     if (request.key != this.register.key) return { success: false };
+    this.interval = Date.now() - this.signal;
     this.signal = Date.now();
     let requests = this.requests;
     this.requests = [];
@@ -56,4 +76,13 @@ const clearClients = () => {
   setTimeout(() => {
     clearClients();
   }, 5000);
+};
+
+const msToString = (ms) => {
+  let hours = Math.floor(ms / 1000 / 60 / 60);
+  let minutes = Math.floor((ms % (1000 * 60 * 60)) / 1000 / 60);
+  let seconds = Math.round(((ms % (1000 * 60 * 60)) % (1000 * 60)) / 1000);
+  return `${hours ? hours + "h " : ""}${minutes ? minutes + "m " : ""}${
+    seconds ? seconds + "s" : ""
+  }`;
 };
